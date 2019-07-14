@@ -226,7 +226,7 @@ void catcher_down(int speed,uint_32 t){
     motor_brusher_left.spin(directionType::bwd,speed,velocityUnits::pct);
     motor_brusher_right.spin(directionType::bwd,speed,velocityUnits::pct);
     
-    vex::task::sleep();
+    vex::task::sleep(t);
     stop_catcher_motor();
 }
 
