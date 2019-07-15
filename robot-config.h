@@ -16,6 +16,6 @@ vex::motor motor_brusher_right(vex::PORT9,vex::gearSetting::ratio18_1,false);
 vex::motor motor_brusher_left(vex::PORT10,vex::gearSetting::ratio18_1,false);
 vex::motor motor_brusher_right(vex::PORT11,vex::gearSetting::ratio18_1,false);
 
-vex::motor motor_riser_left(vex::PORT11,vex::gearSetting::ratio18_1,false);
-vex::motor motor_riser_right(vex::PORT12,vex::gearSetting::ratio18_1,false);
+vex::motor motor_riser_left(vex::PORT12,vex::gearSetting::ratio18_1,false);
+vex::motor motor_riser_right(vex::PORT13,vex::gearSetting::ratio18_1,false);
 
