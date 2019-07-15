@@ -15,7 +15,7 @@ is determined by the exact position of the axis;
 //----value for modification-------//
 const int turning_speed = 25;
 const int rising_speed = 25;
-cosnt int brushing_speed = 25;
+const int brushing_speed = 25;
 //---------------------------------//
 
 
@@ -76,7 +76,7 @@ int main() {
 
 
 void moving_part(){
-     if(controller1.Axis3.value()>15){
+     if(controller1.Axis2.value()>15){
             
           motor_driver_Left1.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
           motor_driver_Left2.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
@@ -85,7 +85,7 @@ void moving_part(){
           motor_driver_Right2.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
           motor_driver_Right3.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);  
         
-        }else if(controller1.Axis3.value()<-15){
+        }else if(controller1.Axis1.value()<-15){
             
           motor_driver_Left1.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
           motor_driver_Left2.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
@@ -105,23 +105,17 @@ void turning_part(){
               motor_driver_Right1.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits::pct);
               motor_driver_Right2.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct);
               motor_driver_Right3.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct); 
-			  motor_driver_Left1.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits::pct);
-              motor_driver_Left2.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct);
-              motor_driver_Left3.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct); 
           }
           if(controller1.Axis4.value()<-100){
               motor_driver_Left1.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits::pct);
               motor_driver_Left2.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct);
               motor_driver_Left3.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct); 
-			  motor_driver_Right1.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits::pct);
-              motor_driver_Right2.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct);
-              motor_driver_Right3.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct); 
           }else{
               stop_driver_motor();
           }
 }
 
-/* void brusher_part(){
+void brusher_part(){
     if(controller1.ButtonR1.pressing()){
         motor_brusher_left.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);
         motor_brusher_right.spin(vex:directionType::fwd,brushing_speed,velocityUnits::pct);       
@@ -136,7 +130,7 @@ void turning_part(){
     {
         stop_brusher_motor();
     }
-} */
+}
 void catcher_part(){
   //CATCHING UP
     if(controller1.ButtonL1.pressing()){
@@ -193,10 +187,7 @@ void turning_left(int speed,uint_32 t){
     motor_driver_Right1.spin(directionType::fwd,speed,velocityUnits::pct);
     motor_driver_Right2.spin(directionType::fwd,speed,velocityUnits::pct);
     motor_driver_Right3.spin(directionType::fwd,speed,velocityUnits::pct);
-    motor_driver_Left1.spin(directionType::bwd,speed,velocityUnits::pct);
-    motor_driver_Left2.spin(directionType::bwd,speed,velocityUnits::pct);
-    motor_driver_Left3.spin(directionType::bwd,speed,velocityUnits::pct);
-
+    
     vex::task::sleep(t);
     stop_driver_motor();
 }
@@ -205,10 +196,7 @@ void turning_right(int speed,uint_32 t){
     motor_driver_Left1.spin(directionType::fwd,speed,velocityUnits::pct);
     motor_driver_Left2.spin(directionType::fwd,speed,velocityUnits::pct);
     motor_driver_Left3.spin(directionType::fwd,speed,velocityUnits::pct);
-    motor_driver_Right1.spin(directionType::bwd,speed,velocityUnits::pct);
-    motor_driver_Right2.spin(directionType::bwd,speed,velocityUnits::pct);
-    motor_driver_Right3.spin(directionType::bwd,speed,velocityUnits::pct);
-
+    
     vex::task::sleep(t);
     stop_driver_motor();
 }
