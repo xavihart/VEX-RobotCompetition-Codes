@@ -10,12 +10,11 @@ vex::motor motor_driver_Right3(vex::PORT6,vex::gearSetting::ratio18_1,false);
 
 vex::controller controller1 controller1 = vex::controller();
 
-vex::motor motor_brusher_left(vex::PORT8,vex::gearSetting::ratio18_1,false);
-vex::motor motor_brusher_right(vex::PORT9,vex::gearSetting::ratio18_1,false);
+vex::motor motor_brusher_left(vex::PORT7,vex::gearSetting::ratio18_1,false);
+vex::motor motor_brusher_right(vex::PORT8,vex::gearSetting::ratio18_1,false);
 
-vex::motor motor_brusher_left(vex::PORT10,vex::gearSetting::ratio18_1,false);
-vex::motor motor_brusher_right(vex::PORT11,vex::gearSetting::ratio18_1,false);
 
-vex::motor motor_riser_left(vex::PORT12,vex::gearSetting::ratio18_1,false);
-vex::motor motor_riser_right(vex::PORT13,vex::gearSetting::ratio18_1,false);
+
+vex::motor motor_riser_left(vex::PORT9,vex::gearSetting::ratio18_1,false);
+vex::motor motor_riser_right(vex::PORT10,vex::gearSetting::ratio18_1,false);
 
