@@ -13,7 +13,7 @@ void brusher_part(){
 
 //brusher_func is not compeleted
 
-double brusher_func{
+double brusher_func(int value){
 	double velocity;
 	
 	return velocity;
