@@ -78,21 +78,21 @@ int main() {
 void moving_part(){
      if(controller1.Axis3.value()>15){
             
-          motor_driver_Left1.spin(vex::directionType::fwd,func(controller1.Axis2.value()));
-          motor_driver_Left2.spin(vex::directionType::fwd,func(controller1.Axis2.value()));
-          motor_driver_Left3.spin(vex::directionType::fwd,func(controller1.Axis2.value()));
-          motor_driver_Right1.spin(vex::directionType::fwd,func(controller1.Axis2.value()));
-          motor_driver_Right2.spin(vex::directionType::fwd,func(controller1.Axis2.value()));
-          motor_driver_Right3.spin(vex::directionType::fwd,func(controller1.Axis2.value()));  
+          motor_driver_Left1.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Left2.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Left3.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Right1.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Right2.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Right3.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::pct);  
         
         }else if(controller1.Axis3.value()<-15){
             
-          motor_driver_Left1.spin(vex::directionType::bwd,func2(controller1.Axis2.value()));
-          motor_driver_Left2.spin(vex::directionType::bwd,func2(controller1.Axis2.value()));
-          motor_driver_Left3.spin(vex::directionType::bwd,func2(controller1.Axis2.value()));
-          motor_driver_Right1.spin(vex::directionType::bwd,func2(controller1.Axis2.value()));
-          motor_driver_Right2.spin(vex::directionType::bwd,func2(controller1.Axis2.value()));
-          motor_driver_Right3.spin(vex::directionType::bwd,func2(controller1.Axis2.value()));  
+          motor_driver_Left1.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Left2.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Left3.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Right1.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Right2.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);
+          motor_driver_Right3.spin(vex::directionType::bwd,func2(controller1.Axis2.value()),velocityUnits::pct);  
             
         }else{stop_driver_motor();}    
                
