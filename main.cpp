@@ -105,11 +105,17 @@ void turning_part(){
               motor_driver_Right1.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits::pct);
               motor_driver_Right2.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct);
               motor_driver_Right3.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct); 
+			  motor_driver_Left1.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits::pct);
+              motor_driver_Left2.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct);
+              motor_driver_Left3.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct); 
           }
           if(controller1.Axis4.value()<-100){
               motor_driver_Left1.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits::pct);
               motor_driver_Left2.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct);
               motor_driver_Left3.spin(vex::directionType::fwd,turnning_speed_pct,velocityUnits:::pct); 
+			  motor_driver_Right1.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits::pct);
+              motor_driver_Right2.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct);
+              motor_driver_Right3.spin(vex::directionType::bwd,turnning_speed_pct,velocityUnits:::pct); 
           }else{
               stop_driver_motor();
           }
