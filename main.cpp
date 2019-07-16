@@ -1,5 +1,5 @@
 #include "robot-config.h"
-
+#include <cmath>
 //----------------------------------------------------------------//
 /*---------------------Introdcutions of controller----------------
    AXIS2 : the forward and backword move of the model, the speed 
@@ -13,11 +13,18 @@ is determined by the exact position of the axis;
 
 
 //----value for modification-------//
-const int turnning_speed = 100;
+const int turnning_speed = 50;
 const int rising_speed = 40;
 const int brushing_speed = 100;
 //---------------------------------//
 
+
+int flag = 1;
+void  gear_changing(){
+    
+    flag  = (flag-1)*(flag -1);
+    
+}
 
 
 //------declaration of functions for the autonoumous section------------//
@@ -68,7 +75,11 @@ int main() {
     
       
     while(1){   
-  
+       controller1.ButtonUp.pressed(gear_changing);
+        
+       controller1.Screen.print(flag);
+       
+       
         
        moving_part();
        turning_part();
@@ -80,37 +91,67 @@ int main() {
     
 }
 
-int func(int a){
-    return a+73;
+int func(double a){
+    
+    return int(59.46*sqrt(sqrt(a)));
 }
 
-int func2(int a){
-    return -a+73;
+int func2(double a){
+    
+    return int(59.46*sqrt(sqrt(-a)));
 }
 
+int raiser_func(int a){
+    return int(sqrt(a)*4);
+}
 
+int raiser_func2(int a){
+    return int(sqrt(-a)*4);
+}
 
 void moving_part(){
     
-     if(controller1.Axis2.value()>15){
+     if(controller1.Axis3.value()>15){
+        if (flag){
+          motor_driver_Left1.spin(vex::directionType::rev,func(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Left2.spin(vex::directionType::fwd,func(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Left3.spin(vex::directionType::rev,func(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Right1.spin(vex::directionType::fwd,func(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Right2.spin(vex::directionType::rev,func(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Right3.spin(vex::directionType::fwd,func(controller1.Axis3.value()),velocityUnits::rpm);  
+        }else{
             
-          motor_driver_Left1.spin(vex::directionType::rev,func(controller1.Axis2.value()),velocityUnits::rpm);
-         motor_driver_Left2.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::rpm);
-         motor_driver_Left3.spin(vex::directionType::rev,func(controller1.Axis2.value()),velocityUnits::rpm);
-          motor_driver_Right1.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::rpm);
-          motor_driver_Right2.spin(vex::directionType::rev,func(controller1.Axis2.value()),velocityUnits::rpm);
-         motor_driver_Right3.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::rpm);  
+          motor_driver_Left1.spin(vex::directionType::rev,20,velocityUnits::rpm);
+          motor_driver_Left2.spin(vex::directionType::fwd,20,velocityUnits::rpm);
+          motor_driver_Left3.spin(vex::directionType::rev,20,velocityUnits::rpm);
+          motor_driver_Right1.spin(vex::directionType::fwd,20,velocityUnits::rpm);
+          motor_driver_Right2.spin(vex::directionType::rev,20,velocityUnits::rpm);
+          motor_driver_Right3.spin(vex::directionType::fwd,20,velocityUnits::rpm);  
+            
+        }
+         
         
-        }else if(controller1.Axis2.value()<-15){
+        }else if(controller1.Axis3.value()<-15){
+            if (flag){
+          motor_driver_Left1.spin(vex::directionType::fwd,func2(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Left2.spin(vex::directionType::rev,func2(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Left3.spin(vex::directionType::fwd,func2(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Right1.spin(vex::directionType::rev,func2(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Right2.spin(vex::directionType::fwd,func2(controller1.Axis3.value()),velocityUnits::rpm);
+          motor_driver_Right3.spin(vex::directionType::rev,func2(controller1.Axis3.value()),velocityUnits::rpm);  
+            }
+         else{
+           motor_driver_Left1.spin(vex::directionType::fwd,20,velocityUnits::rpm);
+          motor_driver_Left2.spin(vex::directionType::rev,20,velocityUnits::rpm);
+          motor_driver_Left3.spin(vex::directionType::fwd,20,velocityUnits::rpm);
+          motor_driver_Right1.spin(vex::directionType::rev,20,velocityUnits::rpm);
+          motor_driver_Right2.spin(vex::directionType::fwd,20,velocityUnits::rpm);
+          motor_driver_Right3.spin(vex::directionType::rev,20,velocityUnits::rpm);
+             
+         }
             
-          motor_driver_Left1.spin(vex::directionType::fwd,func2(controller1.Axis2.value()),velocityUnits::rpm);
-         motor_driver_Left2.spin(vex::directionType::rev,func2(controller1.Axis2.value()),velocityUnits::rpm);
-          motor_driver_Left3.spin(vex::directionType::fwd,func2(controller1.Axis2.value()),velocityUnits::rpm);
-          motor_driver_Right1.spin(vex::directionType::rev,func2(controller1.Axis2.value()),velocityUnits::rpm);
-          motor_driver_Right2.spin(vex::directionType::fwd,func2(controller1.Axis2.value()),velocityUnits::rpm);
-          motor_driver_Right3.spin(vex::directionType::rev,func2(controller1.Axis2.value()),velocityUnits::rpm);  
-            
-        }else{stop_driver_motor();}    
+        }else{
+         stop_driver_motor();}    
                
         
 }
@@ -136,7 +177,7 @@ void turning_part(){
               motor_driver_Right2.spin(vex::directionType::rev,turnning_speed,velocityUnits::pct);
               motor_driver_Right3.spin(vex::directionType::fwd,turnning_speed,velocityUnits::pct);
           }else{
-              if (controller1.Axis2.value()>-15 && controller1.Axis2.value()<15)
+              if (controller1.Axis3.value()>-15 && controller1.Axis3.value()<15)
                  stop_driver_motor();
           }
 }
@@ -145,35 +186,37 @@ void turning_part(){
 
 void brusher_part(){
     
-    if(controller1.ButtonR1.pressing()){
-        motor_brusher_left.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);
-        motor_brusher_right.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);       
+    if(controller1.Axis1.value()>15){
+        motor_brusher_left.spin(vex::directionType::fwd,func(controller1.Axis1.value()),velocityUnits::rpm);
+        motor_brusher_right.spin(vex::directionType::rev,func(controller1.Axis1.value()),velocityUnits::rpm);       
     }
     
-    if(controller1.ButtonR2.pressing()){
-        motor_brusher_left.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);
-        motor_brusher_right.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);       
+    else if(controller1.Axis1.value()<-15){
+        motor_brusher_left.spin(vex::directionType::rev,func2(controller1.Axis1.value()),velocityUnits::rpm);
+        motor_brusher_right.spin(vex::directionType::fwd,func2(controller1.Axis1.value()),velocityUnits::rpm);       
     }
     
-    if((!controller1.ButtonR1.pressing())&&(!controller1.ButtonR2.pressing()))
-    {
+    //if((!controller1.ButtonR1.pressing())&&(!controller1.ButtonR2.pressing()))
+	else
+    {  
         stop_brusher_motor();
     }
 }
 void catcher_part(){
   //CATCHING UP
-    if(controller1.ButtonL1.pressing()){
-        motor_riser_left.spin(vex::directionType::fwd,rising_speed,velocityUnits::pct);
-        motor_riser_right.spin(vex::directionType::rev,rising_speed,velocityUnits::pct);
+    if(controller1.Axis2.value()>15){
+        motor_riser_left.spin(vex::directionType::rev,raiser_func(controller1.Axis2.value()),velocityUnits::rpm);
+        motor_riser_right.spin(vex::directionType::fwd,raiser_func(controller1.Axis2.value()),velocityUnits::rpm);
     }
   //PUT IT DOWN
-    if(controller1.ButtonL2.pressing()){
-        motor_riser_left.spin(vex::directionType::rev,rising_speed,velocityUnits::pct);
-        motor_riser_right.spin(vex::directionType::fwd,rising_speed,velocityUnits::pct);
+    else if(controller1.Axis2.value()<-15){
+        motor_riser_left.spin(vex::directionType::fwd,raiser_func2(controller1.Axis2.value()),velocityUnits::rpm);
+        motor_riser_right.spin(vex::directionType::rev,raiser_func2(controller1.Axis2.value()),velocityUnits::rpm);
     }
   // if no 1-Button is pressed, just stop the motor  
-    if((!controller1.ButtonL1.pressing())&&(!controller1.ButtonL2.pressing()))
-    {
+    /* if((!controller1.ButtonL1.pressing())&&(!controller1.ButtonL2.pressing())) */
+	else
+    {  
         stop_catcher_motor();
     }
     
@@ -258,3 +301,5 @@ void catcher_down(int speed,int t){
     vex::task::sleep(t);
     stop_catcher_motor();
 }
+
+
