@@ -66,7 +66,7 @@ void stop_catcher_motor(){
 int main() {
     void autonomous_section();
     
-    Accelerometer.value(vex::analogUnits::range8bit)    Accelerometer.value(vex::analogUnits::range8bit)   
+      
     while(1){   
   
         
@@ -93,7 +93,7 @@ int func2(int a){
 void moving_part(){
      if(controller1.Axis2.value()>15){
             
-          motor_driver_Left1.spin(vex::directionType::fwd,func(controller1.Axis2.value(),velocityUnits::rpm);
+          motor_driver_Left1.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::rpm);
          motor_driver_Left2.spin(vex::directionType::rev,func(controller1.Axis2.value()),velocityUnits::rpm);
          motor_driver_Left3.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::rpm);
           motor_driver_Right1.spin(vex::directionType::fwd,func(controller1.Axis2.value()),velocityUnits::rpm);
@@ -244,4 +244,3 @@ void catcher_down(int speed,int t){
     vex::task::sleep(t);
     stop_catcher_motor();
 }
-
