@@ -8,7 +8,7 @@ vex::motor motor_driver_Right1(vex::PORT4,vex::gearSetting::ratio18_1,false);
 vex::motor motor_driver_Right2(vex::PORT5,vex::gearSetting::ratio18_1,false);
 vex::motor motor_driver_Right3(vex::PORT6,vex::gearSetting::ratio18_1,false);
 
-vex::controller controller1 controller1 = vex::controller();
+vex::controller controller1 = vex::controller();
 
 vex::motor motor_brusher_left(vex::PORT7,vex::gearSetting::ratio18_1,false);
 vex::motor motor_brusher_right(vex::PORT8,vex::gearSetting::ratio18_1,false);
