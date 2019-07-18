@@ -19,7 +19,7 @@ const int low_speed = 35;
 const int low_turning_speed = 10;
 const int brushing_speed = 100;
 //------shift gear-----------------//
-bool move_flag = false;
+bool move_flag = true;
 
 
 //------declaration of functions for the autonoumous section------------//
@@ -61,8 +61,8 @@ void stop_catcher_motor(){
   motor_riser_right.stop( vex::brakeType::hold);
 }
 
-void buttonup_pressed(){
-    move_flag = !move_flag;
+void gearshift(){
+	move_flag = controller1.ButtonR1.pressing()?false:true;
 }
 
 //-----------------------------------------------------//
@@ -72,9 +72,7 @@ void buttonup_pressed(){
 int main() {
    void autonomous_section();
     while(1){   
-        controller1.ButtonUp.pressed(buttonup_pressed);
-        controller1.Screen.clearScreen();
-       if (move_flag) controller1.Screen.print(1); else controller1.Screen.print(0);
+	   gearshift();
        moving_part();
        turning_part();
        brusher_part();
@@ -167,17 +165,16 @@ void turning_part(){
 
 void brusher_part(){
     
-    if(controller1.ButtonR1.pressing()){
+    if(controller1.ButtonUp.pressing()){
         motor_brusher_left.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);
         motor_brusher_right.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);       
     }
     
-    else if(controller1.ButtonR2.pressing()){
+    else if(controller1.ButtonDown.pressing()){
         motor_brusher_left.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);
         motor_brusher_right.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);       
     }
     
-    //if((!controller1.ButtonR1.pressing())&&(!controller1.ButtonR2.pressing()))
 	else
     {  
         stop_brusher_motor();
@@ -185,12 +182,12 @@ void brusher_part(){
 }
 void catcher_part(){
   //CATCHING UP
-    if(controller1.Axis2.value()>15){
+    if(controller1.ButtonL2.pressing()){
         motor_riser_left.spin(vex::directionType::rev,raiser_func(controller1.Axis2.value()),velocityUnits::rpm);
         motor_riser_right.spin(vex::directionType::fwd,raiser_func(controller1.Axis2.value()),velocityUnits::rpm);
     }
   //PUT IT DOWN
-    else if(controller1.Axis2.value()<-15){
+    else if(controller1.ButtonL1.pressing()){
         motor_riser_left.spin(vex::directionType::fwd,raiser_func2(controller1.Axis2.value()),velocityUnits::rpm);
         motor_riser_right.spin(vex::directionType::rev,raiser_func2(controller1.Axis2.value()),velocityUnits::rpm);
     }
@@ -204,7 +201,7 @@ void catcher_part(){
 }
 
 void atonomous_section(){
-    /*to do operations in the 45s-
+    /*to do operations in the 105s-
     autonomous part of the game using 
        the sub-functions below*/
     
