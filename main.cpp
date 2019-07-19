@@ -1,7 +1,7 @@
 #include "robot-config.h"
 #include <cmath>
 //----------------------------------------------------------------//
-vex::competition    Competition;
+//vex::competition    Competition;
 
 /*---------------------Introdcutions of controller----------------
    AXIS3 : the forward and backword move of the model, the speed 
@@ -20,6 +20,7 @@ const int rising_speed = 40;
 const int low_speed = 35;
 const int low_turning_speed = 10;
 const int brushing_speed = 100;
+const int turning_time = 1280;
 //------shift gear-----------------//
 bool move_flag = true;
 
@@ -38,8 +39,10 @@ void autonomous_section();
   void brusher_down(int,int );
   void catcher_up(int,int );
   void catcher_down(int,int ); 
-void cocatch_up(int, int, int);
-void cocatch_down(int, int, int);
+void putup(int, int, int);
+void putdown(int, int, int, int);
+void fetchup(int, int, int, int);
+void fetchdown(int, int, int, int);
 //---------------------------------------------------------------------//
 
 
@@ -76,7 +79,7 @@ void gearshift(){
 
 int main() {
    //void autonomous_section();
-   if (Competition.isCompetitionSwitch()) {
+   /* if (Competition.isCompetitionSwitch()) {
     // connected to a competition switch
     Brain.Screen.print("Connected to a competition switch");
 	Competition.drivercontrol(usercontrol);
@@ -89,9 +92,29 @@ int main() {
 } else {
     // not connected to any control system
     Brain.Screen.print("not connected to a control system");
-}
-   
+} */
+   //atonomous_section();
+    //moving_fwd(90, 1400);
+    //turning_left(50,turning_time);
+    //catcher_up(40, 500);
+    //vex::task::sleep(1000);
     
+    //-------fetch and put down one square------------
+   /* brusher_up(70,800);    
+    catcher_up(50, 500);
+    cocatch_down(13, 30, 1250, 2000);*/
+    
+    //------------move forward to the first square-----
+    moving_fwd(60, 200);
+    catcher_up(15, 800);
+    moving_fwd(60, 655);
+    
+    fetchup(13, 60, 500, 1500);
+	
+    turning_left(50, turning_time);
+    moving_fwd(60, 855);
+    fetchup(13, 60, 500, 1500);
+    //fetchdown(13, 30, 500, 2000);
     
 }
 
@@ -234,7 +257,7 @@ void atonomous_section(){
 	//catcher_up(40, 1000);
 	//brusher_up(100, 1000); 
 	
-	cocatch_up(40, 100, 1000);
+	//cocatch_up(40, 100, 1000);
 	
 	turning_right(100, 500);
 	moving_fwd(100, 1000);
@@ -243,14 +266,14 @@ void atonomous_section(){
 	//catcher_up(100, 400);
 	//brusher_up(100, 1000);
 	
-	cocatch_up(40, 100, 1000);
+	//cocatch_up(40, 100, 1000);
 	
 	moving_fwd(100, 500);
 	turning_left(100, 500);
 	moving_fwd(50, 800);
 	brusher_down(50, 1000);
 	
-	cocatch_down(50,50, 1000);
+	//cocatch_down(50,50, 1000);
     
 }
 
@@ -279,7 +302,7 @@ void moving_bwd(int speed,int t){
     stop_driver_motor();
 }
 
-void turning_left(int speed,int t){
+void turning_right(int speed,int t){
 	motor_driver_Left1.spin(vex::directionType::rev,speed,velocityUnits::pct);
 	motor_driver_Left2.spin(vex::directionType::fwd,speed,velocityUnits::pct);
 	motor_driver_Left3.spin(vex::directionType::rev,speed,velocityUnits::pct);
@@ -291,7 +314,7 @@ void turning_left(int speed,int t){
     stop_driver_motor();
 }
 
-void turning_right(int speed,int t){
+void turning_left(int speed,int t){
     motor_driver_Left1.spin(vex::directionType::fwd,speed,velocityUnits::pct);
     motor_driver_Left2.spin(vex::directionType::rev,speed,velocityUnits::pct);
     motor_driver_Left3.spin(vex::directionType::fwd,speed,velocityUnits::pct);
@@ -331,9 +354,10 @@ void catcher_down(int speed,int t){
     stop_catcher_motor();
 }
 
-void cocatch_up(int catchspeed, int brushspeed, int t){
+void putup(int catchspeed, int brushspeed, int t){
 	motor_brusher_left.spin(vex::directionType::rev,brushspeed,velocityUnits::pct);
     motor_brusher_right.spin(vex::directionType::fwd,brushspeed,velocityUnits::pct);
+    vex::task::sleep(10);
 	motor_riser_left.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
     motor_riser_right.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
 	
@@ -342,13 +366,47 @@ void cocatch_up(int catchspeed, int brushspeed, int t){
 	stop_brusher_motor();
 }
 
-void cocatch_down(int catchspeed, int brushspeed, int t){
+void  putdown(int catchspeed, int brushspeed,int catcht, int t){
 	motor_brusher_left.spin(vex::directionType::fwd,brushspeed,velocityUnits::pct);
     motor_brusher_right.spin(vex::directionType::rev,brushspeed,velocityUnits::pct);
-	motor_brusher_left.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
-    motor_brusher_right.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
-	
-	vex::task::sleep(t);
+    vex::task::sleep(10);
+	motor_riser_left.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
+    motor_riser_right.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
+	vex::task::sleep(catcht);
     stop_catcher_motor();
+    motor_riser_left.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
+    motor_riser_right.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
+	vex::task::sleep(t-catcht);
 	stop_brusher_motor();
+    stop_catcher_motor();
+}
+
+void fetchup(int catchspeed, int brushspeed, int catcht, int t){
+    motor_brusher_left.spin(vex::directionType::rev,brushspeed,velocityUnits::pct);
+    motor_brusher_right.spin(vex::directionType::fwd,brushspeed,velocityUnits::pct);
+    vex::task::sleep(10);
+    motor_riser_left.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
+    motor_riser_right.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
+    vex::task::sleep(catcht);
+    stop_catcher_motor();
+   //motor_riser_left.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
+   // motor_riser_right.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
+	vex::task::sleep(t-catcht);
+	stop_brusher_motor();
+   // stop_catcher_motor();
+}
+
+void fetchdown(int catchspeed, int brushspeed, int catcht, int t){
+    motor_brusher_left.spin(vex::directionType::rev,brushspeed,velocityUnits::pct);
+    motor_brusher_right.spin(vex::directionType::fwd,brushspeed,velocityUnits::pct);
+    vex::task::sleep(10);
+    motor_riser_left.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
+    motor_riser_right.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
+    vex::task::sleep(catcht);
+    stop_catcher_motor();
+    motor_riser_left.spin(vex::directionType::fwd,catchspeed,velocityUnits::pct);
+    motor_riser_right.spin(vex::directionType::rev,catchspeed,velocityUnits::pct);
+	vex::task::sleep(t-catcht);
+	stop_brusher_motor();
+    stop_catcher_motor();
 }
