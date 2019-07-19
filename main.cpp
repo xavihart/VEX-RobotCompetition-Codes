@@ -1,14 +1,16 @@
 #include "robot-config.h"
 #include <cmath>
 //----------------------------------------------------------------//
+vex::competition    Competition;
+
 /*---------------------Introdcutions of controller----------------
-   AXIS2 : the forward and backword move of the model, the speed 
+   AXIS3 : the forward and backword move of the model, the speed 
 is determined by the exact position of the axis;
    AXIS4 : turn left and right
-   ButtonL1:  make the brusher to rotate clockwise
-   ButtonL2:  make the brusher to rotate counterclockwise
-   ButtonR1:  make the block_catcher to move up
-   ButtonR2:  make the block_catcher to move down
+   ButtonL1:  make the catcher move up
+   ButtonL2:  make the catcher move down 
+   ButtonUp:  make the brusher rotate clockwise
+   ButtonDown:  make the brusher rotate counter clockwise
 ---------------------------------------------------------------**/ 
 
 
@@ -27,6 +29,7 @@ void autonomous_section();
   // autonomous_section actually is the combination of these sub-function:
   /* In the end of each function below we add a stop function to the certain gear, 
   that is to say,the function(operation)is set to run a finite distance */
+  void usercontrol();
   void moving_fwd(int ,int  ); 
   void moving_bwd(int,int  );
   void turning_left(int,int );
@@ -73,15 +76,22 @@ void gearshift(){
 
 int main() {
    //void autonomous_section();
-    while(1){   
-	   gearshift();
-       moving_part();
-       turning_part();
-       brusher_part();
-       catcher_part();
-        
-       vex::task::sleep(10);
-    }
+   if (Competition.isCompetitionSwitch()) {
+    // connected to a competition switch
+    Brain.Screen.print("Connected to a competition switch");
+	Competition.drivercontrol(usercontrol);
+	
+} else if (Competition.isFieldControl()) {
+    // connected to a field control system
+    Brain.Screen.print("Connected to a field control system");
+	Competition.autonomous( autonomous_section );
+	
+} else {
+    // not connected to any control system
+    Brain.Screen.print("not connected to a control system");
+}
+   
+    
     
 }
 
@@ -200,6 +210,18 @@ void catcher_part(){
         stop_catcher_motor();
     }
     
+}
+
+void usercontrol(){
+	while(1){   
+	   gearshift();
+       moving_part();
+       turning_part();
+       brusher_part();
+       catcher_part();
+        
+       vex::task::sleep(10);
+    }
 }
 
 void atonomous_section(){
