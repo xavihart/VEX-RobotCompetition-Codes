@@ -35,6 +35,8 @@ void autonomous_section();
   void brusher_down(int,int );
   void catcher_up(int,int );
   void catcher_down(int,int ); 
+void cocatch_up(int, int, int);
+void cocatch_down(int, int, int);
 //---------------------------------------------------------------------//
 
 
@@ -70,7 +72,7 @@ void gearshift(){
 
 
 int main() {
-   void autonomous_section();
+   //void autonomous_section();
     while(1){   
 	   gearshift();
        moving_part();
@@ -166,13 +168,13 @@ void turning_part(){
 void brusher_part(){
     
     if(controller1.ButtonDown.pressing()){
-        motor_brusher_left.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);
-        motor_brusher_right.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);       
+        motor_brusher_left.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);
+        motor_brusher_right.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);       
     }
     
     else if(controller1.ButtonUp.pressing()){
-        motor_brusher_left.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);
-        motor_brusher_right.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);       
+        motor_brusher_left.spin(vex::directionType::fwd,brushing_speed,velocityUnits::pct);
+        motor_brusher_right.spin(vex::directionType::rev,brushing_speed,velocityUnits::pct);       
     }
     
 	else
@@ -183,13 +185,13 @@ void brusher_part(){
 void catcher_part(){
   //CATCHING DOWN
     if(controller1.ButtonL2.pressing()){
-        motor_riser_left.spin(vex::directionType::rev,raiser_func(controller1.Axis2.value()),velocityUnits::rpm);
-        motor_riser_right.spin(vex::directionType::fwd,raiser_func(controller1.Axis2.value()),velocityUnits::rpm);
+        motor_riser_left.spin(vex::directionType::rev,rising_speed,velocityUnits::rpm);
+        motor_riser_right.spin(vex::directionType::fwd,rising_speed,velocityUnits::rpm);
     }
   //PUT IT UP
     else if(controller1.ButtonL1.pressing()){
-        motor_riser_left.spin(vex::directionType::fwd,raiser_func2(controller1.Axis2.value()),velocityUnits::rpm);
-        motor_riser_right.spin(vex::directionType::rev,raiser_func2(controller1.Axis2.value()),velocityUnits::rpm);
+        motor_riser_left.spin(vex::directionType::fwd,rising_speed,velocityUnits::rpm);
+        motor_riser_right.spin(vex::directionType::rev,rising_speed,velocityUnits::rpm);
     }
   // if no 1-Button is pressed, just stop the motor  
     /* if((!controller1.ButtonL1.pressing())&&(!controller1.ButtonL2.pressing())) */
@@ -226,7 +228,7 @@ void atonomous_section(){
 	moving_fwd(50, 800);
 	brusher_down(50, 1000);
 	
-	cocatch_down(50, 1000);
+	cocatch_down(50,50, 1000);
     
 }
 
@@ -256,9 +258,9 @@ void moving_bwd(int speed,int t){
 }
 
 void turning_left(int speed,int t){
-	motor_driver_Left1.spin(vex::directionType::rev,speed,velocityUnits::pct)
-	motor_driver_Left2.spin(vex::directionType::fwd,speed,velocityUnits::pct)
-	motor_driver_Left3.spin(vex::directionType::rev,speed,velocityUnits::pct)
+	motor_driver_Left1.spin(vex::directionType::rev,speed,velocityUnits::pct);
+	motor_driver_Left2.spin(vex::directionType::fwd,speed,velocityUnits::pct);
+	motor_driver_Left3.spin(vex::directionType::rev,speed,velocityUnits::pct);
     motor_driver_Right1.spin(vex::directionType::rev,speed,velocityUnits::pct);
     motor_driver_Right2.spin(vex::directionType::fwd,speed,velocityUnits::pct);
     motor_driver_Right3.spin(vex::directionType::rev,speed,velocityUnits::pct);
